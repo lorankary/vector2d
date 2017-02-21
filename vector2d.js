@@ -20,24 +20,28 @@ var vector2d = function (x, y) {
         scale: function (scale) {
             vec.vx *= scale;
             vec.vy *= scale;
+            return(this);
         },
 
         // add() method adds a vector.
         add: function (vec2) {
             vec.vx += vec2.vx;
             vec.vy += vec2.vy;
+            return(this);
         },
 
         // sub() method subtracts a vector.
         sub: function (vec2) {
             vec.vx -= vec2.vx;
             vec.vy -= vec2.vy;
+            return(this);
         },
 
         // negate() method points the vector in the opposite direction.
         negate: function () {
             vec.vx = -vec.vx;
             vec.vy = -vec.vy;
+            return(this);
         },
 
         // length() method returns the length of the vector using Pythagoras.
@@ -59,9 +63,7 @@ var vector2d = function (x, y) {
                 vec.vx /= len;
                 vec.vy /= len;
             }
-            // As we have already calculated the length, it might as well be
-            // returned as it may be useful.
-            return len;
+            return(this);
         },
 
         // Rotates the vector by an angle specified in radians.
@@ -72,12 +74,23 @@ var vector2d = function (x, y) {
                 sinVal = Math.sin(angle);
             vec.vx = vx * cosVal - vy * sinVal;
             vec.vy = vx * sinVal + vy * cosVal;
-        },
+             return(this);
+       },
 
         // toString() is a utility function for displaying the vector as text,
         // a useful debugging aid.
         toString: function () {
             return '(' + vec.vx.toFixed(3) + ',' + vec.vy.toFixed(3) + ')';
+        },
+        
+        // 2-20-17 added dotProd
+        dotProd: function(v2) {
+ 		    return (this.vx * v2.vx) + (this.vy * v2.vy);
+        },
+        
+        // 2-20-17 added copy()
+        copy: function() {
+            return(vector2d(this.vx, this.vy));
         }
     };
     return vec;
@@ -101,6 +114,7 @@ function Vector2d()
 	{
 		this.vx *= mul;
 		this.vy *= mul;
+        return(this);
 	};
 	
 	// Add a vector.
@@ -108,6 +122,7 @@ function Vector2d()
 	{
 		this.vx += v2.vx;
 		this.vy += v2.vy;
+        return(this);
 	};
 	
 	// Subtract a vector.
@@ -115,6 +130,7 @@ function Vector2d()
 	{
 		this.vx -= v2.vx;
 		this.vy -= v2.vy;
+        return(this);
 	};
 	
 	// Length of vector.
@@ -123,15 +139,16 @@ function Vector2d()
 		return Math.sqrt(this.vx*this.vx + this.vy*this.vy);
 	};
 	
-	// Normalise (unit length). Also returns length before normalisation.
-	Vector2d.prototype.normalise = function()
+	// Normalize (unit length). Also returns length before normalisation.
+	// 2-20-17 normalize the spelling of normalise to normalize
+	Vector2d.prototype.normalize = function()
 	{
 		var len = Math.sqrt(this.vx*this.vx + this.vy*this.vy);
 		if(len) {
 			this.vx /= len;
 			this.vy /= len;
 		}
-		return len;
+        return(this);
 	};
 		
 	// Dot product.	
@@ -145,6 +162,7 @@ function Vector2d()
 	{
 		this.vx = (this.vx * Math.cos(ang)) - (this.vy * Math.sin(ang));
 		this.vy = (this.vy * Math.cos(ang)) + (this.vx * Math.sin(ang));
+        return(this);
 	};
 	
 	// Negate vector (point in opposite direction).
@@ -152,6 +170,7 @@ function Vector2d()
 	{
 		this.vx = -this.vx;
 		this.vy = -this.vy;
+        return(this);
 	};
 	
 	//toString function.
@@ -163,8 +182,15 @@ function Vector2d()
     Vector2d.prototype.rotate = function(angle) {
         this.vx = Math.cos(angle) * this.vx - Math.Sin(angle) * this.vy
         this.vy = Math.Sin(angle) * this.vx + Math.Cos(angle) * this.vy
+        return(this);
 
-    }
+    };
+    
+        // 2-20-17 added copy()
+    Vector2d.prototype.copy =  function() {
+        return(new Vector2d(this.vx, this.vy));
+    };
+
     
    /* Vector2D CrossProduct(const Vector2D & v) const
     {
